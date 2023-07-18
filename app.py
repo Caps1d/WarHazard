@@ -143,7 +143,45 @@ app.layout = dbc.Container(
                                         html.Span(
                                             "Note:", style={"font-weight": "bold"}
                                         ),
-                                        " The map only shows the most recent event for each location. In order to see all events associated with a location, click on a map marker and the table below will list all of the events that have happened at that location during the time period when the data was collected.",
+                                        " The map displays hazard level of a location based on most recent events, meaning that if a high intensity "
+                                        + "event occurred causing high hazard then such will be the hazard score for that location. This does not necessarily "
+                                        + "mean that such is the overall hazard level in that location. In order to view "
+                                        + "all hazard score changes associated with a location, click on a map marker and the table below will list "
+                                        + "all of the events that have happened at that location during the time period when the data was collected.",
+                                    ],
+                                    style={
+                                        "color": "#DCDCDC",
+                                        "fontSize": "18px",
+                                    },
+                                ),
+                                html.P(
+                                    [
+                                        " In order to view "
+                                        + "all hazard score changes associated with a location, click on a map marker and the table below will list "
+                                        + "all of the events that have happened at that location during the time period when the data was collected.",
+                                    ],
+                                    style={
+                                        "color": "#DCDCDC",
+                                        "marginBottom": "20px",
+                                        "fontSize": "18px",
+                                    },
+                                ),
+                                html.P(
+                                    [
+                                        html.Span(
+                                            "Clarification on the appearance of Crimea on the map:",
+                                            style={"font-weight": "bold"},
+                                        ),
+                                        " According to Mapbox, Crimea is a contested territory and therefore it is automatically displayed as neither belonging to Ukraine or Russia.",
+                                    ],
+                                    style={
+                                        "color": "#DCDCDC",
+                                        "fontSize": "18px",
+                                    },
+                                ),
+                                html.P(
+                                    [
+                                        " My word? Crimea is Ukraine. ",
                                     ],
                                     style={
                                         "color": "#DCDCDC",
@@ -167,10 +205,15 @@ app.layout = dbc.Container(
                                     },
                                 ),
                             ],
+                            style={"max-width": "460px"},
                         ),
                     ],
-                    width=4,
-                    style={"padding-left": "90px", "position": "absolute"},
+                    style={
+                        "display": "flex",
+                        "flex-direction": "column",
+                        "align-items": "right",
+                        "padding-left": "50px",
+                    },
                 ),
                 # width=3,
                 # style={'padding-left': '160px'},
@@ -181,7 +224,7 @@ app.layout = dbc.Container(
                             [
                                 html.Div(
                                     dcc.Graph(id="scatter-map"),
-                                    style={"width": "100%", "margin-bottom": "20px"},
+                                    style={"margin-bottom": "20px"},
                                 ),
                                 html.Div(
                                     dcc.RangeSlider(
@@ -203,10 +246,7 @@ app.layout = dbc.Container(
                                         step=5,
                                     ),
                                     style={
-                                        "width": "96%",
-                                        "margin": "0 auto",
                                         "margin-bottom": "20px",
-                                        "padding-right": "78px",
                                     },
                                 ),
                                 dash_table.DataTable(
@@ -236,7 +276,8 @@ app.layout = dbc.Container(
                                         "color": "white",
                                     },
                                     style_table={
-                                        "width": "92%",
+                                        "width": "100%",
+                                        "margin-bottom": "20px",
                                     },
                                 ),
                                 dbc.Button(
@@ -249,8 +290,13 @@ app.layout = dbc.Container(
                             ],
                         ),
                     ],
-                    style={"padding-left": "700px"},
-                    # Always take up 9/12 of the viewport width
+                    style={
+                        "display": "flex",
+                        "flex-direction": "column",
+                        "align-items": "left",
+                        "padding-left": "20px",
+                        "padding-right": "50px",
+                    },
                 ),
             ],
             style={"padding-top": "40px"},
@@ -296,7 +342,7 @@ app.layout = dbc.Container(
                                     target="_blank",
                                 ),
                                 " is a highly respected organization providing real-time data and analysis on current political violence and protest across the world. I am grateful for their support"
-                                " in making this data available to me free of charge. Their data on the location, number of casualties, number of shelling events, and proximity to the battlefront were"
+                                " in making this data available to me free of charge. Their data on the location, number of casualties, number of shelling events were"
                                 " invaluable for this analysis. These factors were carefully chosen because they have a direct impact on the danger level of a region.",
                             ],
                             style={"marginBottom": "20px"},
@@ -351,10 +397,14 @@ app.layout = dbc.Container(
                             " decisions, allocating resources, and planning strategically in war-torn zones.",
                             style={"marginBottom": "20px"},
                         ),
+                        html.P(
+                            "Author: Yegor Smertenko",
+                            style={"textAlign": "right", "marginRight": "40px"},
+                        ),
                     ],
                     style={
                         "justify-content": "column",
-                        "align-items": "left",
+                        "align-items": "right",
                         "color": "#DCDCDC",
                         "fontSize": "18px",
                         "padding-left": "40px",
