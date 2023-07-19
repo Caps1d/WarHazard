@@ -32,6 +32,7 @@ event_total = df["event_date"].count()
 
 # Initialize the Dash app
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.DARKLY])
+server = app.server
 
 app.layout = dbc.Container(
     [
