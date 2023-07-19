@@ -13,8 +13,12 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+dir_path = os.path.dirname(os.path.realpath(__file__))
+commands_dir = os.path.join(dir_path, "hazard_scores", "Hazards_Jan_July.csv")
+
+
 # Load your data
-df = pd.read_csv("./hazard_scores/Hazards_Jan_July.csv")
+df = pd.read_csv(commands_dir)
 df["event_date"] = pd.to_datetime(df["event_date"])
 
 df["unique_id"] = df["admin2"] + "-" + df["admin3"] + "-" + df["location"]
