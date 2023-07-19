@@ -59,19 +59,24 @@ app.layout = dbc.Container(
                                     id="search-bar",
                                     type="text",
                                     placeholder="Enter a location",
-                                    style={"width": "288px", "marginBottom": "20px"},
+                                    style={
+                                        "width": "288px",
+                                        "marginBottom": "20px",
+                                        "paddingLeft": "8px",
+                                        "paddingRight": "8px",
+                                    },
                                 ),
                                 dcc.Dropdown(
                                     id="region-dropdown",
                                     options=[
-                                        {"label": i, "value": i}
-                                        for i in df["admin2"].unique()
+                                        {"label": region, "value": region}
+                                        for region in df["admin2"].unique()
                                     ],
                                     multi=True,
                                     placeholder="Select a region",
                                     style={
-                                        "backgroundColor": "#111111",
-                                        "color": "#7FDBFF",
+                                        "backgroundColor": "#3B3B3B",
+                                        "color": "#757575",
                                         "width": "288px",
                                         "marginBottom": "16px",
                                     },
@@ -84,10 +89,7 @@ app.layout = dbc.Container(
                                     start_date=df["event_date"].min(),
                                     end_date=df["event_date"].max(),
                                     style={
-                                        "backgroundColor": "#111111",
-                                        "color": "#7FDBFF",
                                         "marginBottom": "20px",
-                                        "width": "288px",
                                     },
                                 ),
                                 html.P(
@@ -223,8 +225,8 @@ app.layout = dbc.Container(
                         html.Div(
                             [
                                 html.Div(
-                                    dcc.Graph(id="scatter-map"),
-                                    style={"margin-bottom": "20px"},
+                                    dcc.Graph(id="scatter-map", responsive=True),
+                                    style={"margin-bottom": "20px", "width": "100%"},
                                 ),
                                 html.Div(
                                     dcc.RangeSlider(
@@ -278,6 +280,7 @@ app.layout = dbc.Container(
                                     style_table={
                                         "width": "100%",
                                         "margin-bottom": "20px",
+                                        "text-align": "center",
                                     },
                                 ),
                                 dbc.Button(
