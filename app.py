@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Load your data
-# df = pd.read_csv("./hazard_scores/Hazards_Jan_July.csv")
+df = pd.read_csv("./hazard_scores/Hazards_Jan_July.csv")
 df["event_date"] = pd.to_datetime(df["event_date"])
 
 df["unique_id"] = df["admin2"] + "-" + df["admin3"] + "-" + df["location"]
