@@ -7,9 +7,6 @@
 #ignore .vscode folder
 .vscode
 
-#ignore acled_data folder
-acled_data
-
 #ignore .env file
 .env
 
