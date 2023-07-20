@@ -44,7 +44,6 @@ app.layout = dbc.Container(
                                     style={
                                         "color": "#DCDCDC",
                                         "marginBottom": "10px",
-                                        # "width": "114%",
                                         "fontSize": "18px",
                                     },
                                 ),
@@ -53,7 +52,6 @@ app.layout = dbc.Container(
                                     style={
                                         "color": "#DCDCDC",
                                         "marginBottom": "20px",
-                                        # "width": "110%",
                                         "fontSize": "18px",
                                     },
                                 ),
@@ -67,6 +65,7 @@ app.layout = dbc.Container(
                                         "marginBottom": "20px",
                                         "paddingLeft": "8px",
                                         "paddingRight": "8px",
+                                        "maxWidth": "460px",
                                     },
                                 ),
                                 dcc.Dropdown(
@@ -80,8 +79,8 @@ app.layout = dbc.Container(
                                     style={
                                         "backgroundColor": "#3B3B3B",
                                         "color": "#757575",
-                                        # "width": "288px",
                                         "marginBottom": "16px",
+                                        "maxWidth": "460px",
                                     },
                                 ),
                                 dcc.DatePickerRange(
@@ -210,15 +209,16 @@ app.layout = dbc.Container(
                                     },
                                 ),
                             ],
-                            style={"max-width": "460px", "width": "100%"},
+                            # style={"max-width": "460px", "width": "100%"},
                         ),
                     ],
                     style={
                         "display": "flex",
                         "flex-direction": "column",
                         "align-items": "right",
-                        "padding-left": "50px",
+                        "padding-left": "8px",
                     },
+                    className="desktopPadding",
                 ),
                 # width=3,
                 # style={'padding-left': '160px'},
@@ -228,32 +228,54 @@ app.layout = dbc.Container(
                         html.Div(
                             [
                                 html.Div(
-                                    dcc.Graph(id="scatter-map", responsive=True),
+                                    [
+                                        html.Div(
+                                            dcc.Graph(
+                                                id="scatter-map", responsive=True
+                                            ),
+                                            style={
+                                                "margin-bottom": "20px",
+                                            },
+                                        ),
+                                        html.Div(
+                                            dcc.RangeSlider(
+                                                id="hazard-score-slider",
+                                                min=df["hazard_score_tsne"].min(),
+                                                max=df["hazard_score_tsne"].max(),
+                                                value=[
+                                                    df["hazard_score_tsne"].min(),
+                                                    df["hazard_score_tsne"].max(),
+                                                ],
+                                                marks={
+                                                    str(i): str(i)
+                                                    for i in range(
+                                                        int(
+                                                            df[
+                                                                "hazard_score_tsne"
+                                                            ].min()
+                                                        ),
+                                                        int(
+                                                            df[
+                                                                "hazard_score_tsne"
+                                                            ].max()
+                                                        )
+                                                        + 1,
+                                                        5,
+                                                    )
+                                                },
+                                                step=5,
+                                            ),
+                                            style={
+                                                "margin-bottom": "20px",
+                                                "positoin": "fixed",
+                                                "bottom": "0px",
+                                                "left": "0px",
+                                                "right": "0px",
+                                            },
+                                        ),
+                                    ],
                                     style={
-                                        "margin-bottom": "20px",
-                                    },
-                                ),
-                                html.Div(
-                                    dcc.RangeSlider(
-                                        id="hazard-score-slider",
-                                        min=df["hazard_score_tsne"].min(),
-                                        max=df["hazard_score_tsne"].max(),
-                                        value=[
-                                            df["hazard_score_tsne"].min(),
-                                            df["hazard_score_tsne"].max(),
-                                        ],
-                                        marks={
-                                            str(i): str(i)
-                                            for i in range(
-                                                int(df["hazard_score_tsne"].min()),
-                                                int(df["hazard_score_tsne"].max()) + 1,
-                                                5,
-                                            )
-                                        },
-                                        step=5,
-                                    ),
-                                    style={
-                                        "margin-bottom": "20px",
+                                        "position": "relative",
                                     },
                                 ),
                                 dash_table.DataTable(
@@ -305,11 +327,11 @@ app.layout = dbc.Container(
                         "padding-left": "10px",
                         "padding-right": "10px",
                     },
-                    xl=6,
-                    lg=6,
-                    md=12,
-                    sm=12,
-                    xs=12,
+                    # xl=6,
+                    # lg=6,
+                    # md=12,
+                    # sm=12,
+                    # xs=12,
                 ),
             ],
             style={"padding-top": "40px"},
@@ -335,9 +357,9 @@ app.layout = dbc.Container(
             ],
             style={"padding-top": "80px"},
         ),
-        dbc.Row(
+        html.Div(
             [
-                dbc.Col(
+                html.Div(
                     [
                         dcc.Markdown(
                             """
@@ -378,11 +400,9 @@ app.layout = dbc.Container(
                         "align-items": "left",
                         "color": "#DCDCDC",
                         "fontSize": "18px",
-                        "padding-left": "40px",
-                        "width": "80%",
                     },
                 ),
-                dbc.Col(
+                html.Div(
                     [
                         html.P(
                             "I performed dimensionality reduction using t-Distributed Stochastic Neighbor Embedding (t-SNE),"
@@ -420,12 +440,11 @@ app.layout = dbc.Container(
                         "align-items": "right",
                         "color": "#DCDCDC",
                         "fontSize": "18px",
-                        "padding-left": "40px",
-                        "width": "80%",
                     },
                 ),
             ],
             style={"padding-top": "50px"},
+            className="methodology",
         ),
         html.Script(
             """

@@ -8,3 +8,32 @@
 th {
     text-align: center !important;
 }
+
+
+@media screen and (min-width: 992px) {
+    .desktopPadding {
+        padding-left: 50px;
+    }
+
+    .methodology > div {
+        max-width: 50%;
+    }
+
+    .methodology {
+        gap:20px;
+        justify-content: space-between;
+    }
+}
+
+@media screen and (max-width: 991px) {
+    .desktopPadding {
+        padding-left: 0;
+    }
+    .methodology {
+        flex-direction: column;
+    }
+}
+
+.methodology{
+    display: flex;
+}
