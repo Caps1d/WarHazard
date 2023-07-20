@@ -285,6 +285,7 @@ app.layout = dbc.Container(
                                     style_table={
                                         "width": "100%",
                                         "margin-bottom": "20px",
+                                        "padding-left": "2px",
                                     },
                                 ),
                                 dbc.Button(
@@ -309,7 +310,6 @@ app.layout = dbc.Container(
             ],
             style={"padding-top": "40px"},
         ),
-        html.Div(style={"position": "relative", "marginTop": "200px"}),
         dbc.Row(
             [
                 dbc.Col(
