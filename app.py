@@ -304,7 +304,7 @@ app.layout = dbc.Container(
                         "flex-direction": "column",
                         "align-items": "left",
                         "padding-left": "20px",
-                        "padding-right": "30px",
+                        "padding-right": "10px",
                     },
                     xl=6,
                     md=12,
