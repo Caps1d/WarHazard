@@ -306,6 +306,7 @@ app.layout = dbc.Container(
                         "padding-left": "20px",
                         "padding-right": "30px",
                     },
+                    md=6,
                     xs=12,
                 ),
             ],
