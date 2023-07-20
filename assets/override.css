@@ -3,17 +3,6 @@
     color: #AAAAAA !important;
 }
 
-/* .DayPicker, .CalendarMonthGrid, .CalendarMonth, .CalendarMonth_caption{
-    background-color: #3B3B3B !important;
-    color: #FFFFFF !important;
-}
-
-.DayPickerNavigation_svg__horizontal {
-    border: 1px solid #66E2DA;
-    background-color: #3B3B3B;
-} */
-
-
 #search-bar::placeholder {color: #AAAAAA !important;}
 
 th {
