@@ -428,6 +428,13 @@ app.layout = dbc.Container(
             ],
             style={"padding-top": "50px"},
         ),
+        html.Script(
+            """
+        window.onload = function() {
+            window.dispatchEvent(new Event('resize'));
+        };
+    """
+        ),
     ],
     fluid=True,
 )
