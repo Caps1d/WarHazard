@@ -44,7 +44,7 @@ app.layout = dbc.Container(
                                     style={
                                         "color": "#DCDCDC",
                                         "marginBottom": "10px",
-                                        "width": "114%",
+                                        # "width": "114%",
                                         "fontSize": "18px",
                                     },
                                 ),
@@ -53,7 +53,7 @@ app.layout = dbc.Container(
                                     style={
                                         "color": "#DCDCDC",
                                         "marginBottom": "20px",
-                                        "width": "110%",
+                                        # "width": "110%",
                                         "fontSize": "18px",
                                     },
                                 ),
@@ -63,7 +63,7 @@ app.layout = dbc.Container(
                                     debounce=True,
                                     placeholder="Enter a location",
                                     style={
-                                        "width": "288px",
+                                        "width": "100%",
                                         "marginBottom": "20px",
                                         "paddingLeft": "8px",
                                         "paddingRight": "8px",
@@ -80,7 +80,7 @@ app.layout = dbc.Container(
                                     style={
                                         "backgroundColor": "#3B3B3B",
                                         "color": "#757575",
-                                        "width": "288px",
+                                        # "width": "288px",
                                         "marginBottom": "16px",
                                     },
                                 ),
@@ -210,7 +210,7 @@ app.layout = dbc.Container(
                                     },
                                 ),
                             ],
-                            style={"max-width": "460px"},
+                            style={"max-width": "460px", "width": "100%"},
                         ),
                     ],
                     style={
@@ -283,7 +283,6 @@ app.layout = dbc.Container(
                                         "color": "white",
                                     },
                                     style_table={
-                                        "width": "100%",
                                         "margin-bottom": "20px",
                                         "padding-left": "2px",
                                     },
@@ -307,8 +306,8 @@ app.layout = dbc.Container(
                         "padding-right": "10px",
                     },
                     xl=6,
+                    lg=6,
                     md=12,
-                    lg=12,
                     sm=12,
                     xs=12,
                 ),
