@@ -13,21 +13,23 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+dir_path = os.path.dirname(os.path.realpath(__file__))
+commands_dir = os.path.join(dir_path, "hazard_scores", "Hazards_Jan_July.csv")
+
+
 # Load your data
-df = pd.read_csv("./hazard_scores/Hazards_Jan_July.csv")
+df = pd.read_csv(commands_dir)
 df["event_date"] = pd.to_datetime(df["event_date"])
 
 df["unique_id"] = df["admin2"] + "-" + df["admin3"] + "-" + df["location"]
 df["opacity"] = df["hazard_score_tsne"] / 100
 df["opacity"] = df["opacity"].apply(lambda x: 0.6 if x < 0.6 else x)
 
-
-print(df["event_date"].head(2))
-
 event_total = df["event_date"].count()
 
 # Initialize the Dash app
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.DARKLY])
+server = app.server
 
 app.layout = dbc.Container(
     [
@@ -58,6 +60,7 @@ app.layout = dbc.Container(
                                 dcc.Input(
                                     id="search-bar",
                                     type="text",
+                                    debounce=True,
                                     placeholder="Enter a location",
                                     style={
                                         "width": "288px",
@@ -226,7 +229,9 @@ app.layout = dbc.Container(
                             [
                                 html.Div(
                                     dcc.Graph(id="scatter-map", responsive=True),
-                                    style={"margin-bottom": "20px", "width": "100%"},
+                                    style={
+                                        "margin-bottom": "20px",
+                                    },
                                 ),
                                 html.Div(
                                     dcc.RangeSlider(
@@ -280,7 +285,6 @@ app.layout = dbc.Container(
                                     style_table={
                                         "width": "100%",
                                         "margin-bottom": "20px",
-                                        "text-align": "center",
                                     },
                                 ),
                                 dbc.Button(
@@ -291,6 +295,7 @@ app.layout = dbc.Container(
                                     style={"margin-bottom": "20px"},
                                 ),
                             ],
+                            style={"overflow": "auto"},
                         ),
                     ],
                     style={
@@ -304,6 +309,7 @@ app.layout = dbc.Container(
             ],
             style={"padding-top": "40px"},
         ),
+        html.Div(style={"position": "relative", "marginTop": "200px"}),
         dbc.Row(
             [
                 dbc.Col(
@@ -498,9 +504,6 @@ def update_map_and_events(location, start_date, end_date, hazard_score, region):
 
     # Update the map layout
     fig.update_layout(
-        autosize=False,
-        width=900,  # Width of the figure in pixels
-        height=660,  # Height of the figure in pixels
         mapbox=dict(
             accesstoken=mapbox_access_token,
             style=custom_mapbox_style_url,
