@@ -295,6 +295,7 @@ app.layout = dbc.Container(
                                     style={"margin-bottom": "20px"},
                                 ),
                             ],
+                            style={"overflow": "auto"},
                         ),
                     ],
                     style={
