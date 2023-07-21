@@ -37,3 +37,51 @@ th {
 .methodology{
     display: flex;
 }
+
+/* Adjust the size and position of the map for small screens */
+@media screen and (max-width: 600px) {
+    #scatter-map {
+      width: 100%;
+      height: 300px;
+    }
+  }
+  
+  /* Adjust the size and position of the slider for small screens */
+  @media screen and (max-width: 600px) {
+    #hazard-score-slider {
+      width: 90%;
+      margin: auto;
+    }
+  }
+  
+  /* Adjust the size and position of the table for small screens */
+  @media screen and (max-width: 600px) {
+    #table {
+      width: 90%;
+      margin: auto;
+    }
+  }
+
+/* Adjust the size and position of the map for larger screens */
+@media screen and (min-width: 992px) {
+    #scatter-map {
+        width: 100%;  
+        height: 400px;  
+    }
+}
+
+/* Adjust the size and position of the slider for larger screens */
+@media screen and (min-width: 992px) {
+    #hazard-score-slider {
+        width: 100%;   
+    }
+}
+
+/* Adjust the size and position of the table for larger screens */
+@media screen and (min-width: 992px) {
+    #table {
+        width: 100%;  
+    }
+}
+
+  

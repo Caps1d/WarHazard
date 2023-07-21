@@ -219,105 +219,100 @@ app.layout = dbc.Container(
                         "padding-left": "8px",
                     },
                     className="desktopPadding",
+                    xl=5,
+                    lg=5,
+                    md=12,
+                    sm=12,
+                    xs=12,
                 ),
-                # width=3,
-                # style={'padding-left': '160px'},
-                # xs=3,
                 dbc.Col(
                     [
-                        html.Div(
+                        dbc.Row(
                             [
                                 html.Div(
-                                    [
-                                        html.Div(
-                                            dcc.Graph(
-                                                id="scatter-map", responsive=True
-                                            ),
-                                            style={
-                                                "margin-bottom": "20px",
-                                            },
-                                        ),
-                                        html.Div(
-                                            dcc.RangeSlider(
-                                                id="hazard-score-slider",
-                                                min=df["hazard_score_tsne"].min(),
-                                                max=df["hazard_score_tsne"].max(),
-                                                value=[
-                                                    df["hazard_score_tsne"].min(),
-                                                    df["hazard_score_tsne"].max(),
-                                                ],
-                                                marks={
-                                                    str(i): str(i)
-                                                    for i in range(
-                                                        int(
-                                                            df[
-                                                                "hazard_score_tsne"
-                                                            ].min()
-                                                        ),
-                                                        int(
-                                                            df[
-                                                                "hazard_score_tsne"
-                                                            ].max()
-                                                        )
-                                                        + 1,
-                                                        5,
-                                                    )
-                                                },
-                                                step=5,
-                                            ),
-                                            style={
-                                                "margin-bottom": "20px",
-                                                "positoin": "fixed",
-                                                "bottom": "0px",
-                                                "left": "0px",
-                                                "right": "0px",
-                                            },
-                                        ),
-                                    ],
+                                    dcc.Graph(id="scatter-map", responsive=True),
                                     style={
-                                        "position": "relative",
-                                    },
-                                ),
-                                dash_table.DataTable(
-                                    id="table",
-                                    columns=[
-                                        {"name": i, "id": i}
-                                        for i in [
-                                            "location",
-                                            "event_date",
-                                            "hazard_score_tsne",
-                                        ]
-                                    ],
-                                    data=[],
-                                    page_size=5,
-                                    style_data_conditional=[
-                                        {
-                                            "if": {"row_index": "odd"},
-                                            "backgroundColor": "rgb(50, 50, 50)",
-                                        }
-                                    ],
-                                    style_header={
-                                        "backgroundColor": "rgb(30, 30, 30)",
-                                        "color": "white",
-                                    },
-                                    style_cell={
-                                        "backgroundColor": "rgb(50, 50, 50)",
-                                        "color": "white",
-                                    },
-                                    style_table={
                                         "margin-bottom": "20px",
-                                        "padding-left": "2px",
                                     },
                                 ),
-                                dbc.Button(
-                                    "Clear",
-                                    id="close-button",
-                                    color="secondary",
-                                    className="mr-1",
+                            ]
+                        ),
+                        dbc.Row(
+                            [
+                                html.Div(
+                                    dcc.RangeSlider(
+                                        id="hazard-score-slider",
+                                        min=df["hazard_score_tsne"].min(),
+                                        max=df["hazard_score_tsne"].max(),
+                                        value=[
+                                            df["hazard_score_tsne"].min(),
+                                            df["hazard_score_tsne"].max(),
+                                        ],
+                                        marks={
+                                            str(i): str(i)
+                                            for i in range(
+                                                int(df["hazard_score_tsne"].min()),
+                                                int(df["hazard_score_tsne"].max()) + 1,
+                                                10,
+                                            )
+                                        },
+                                        step=10,
+                                    ),
+                                    style={
+                                        "margin-bottom": "20px",
+                                        "position": "relative",
+                                        "width": "100%",
+                                    },
+                                ),
+                            ]
+                        ),
+                        dbc.Row(
+                            [
+                                html.Div(
+                                    dash_table.DataTable(
+                                        id="table",
+                                        columns=[
+                                            {"name": i, "id": i}
+                                            for i in [
+                                                "location",
+                                                "event_date",
+                                                "hazard_score_tsne",
+                                            ]
+                                        ],
+                                        data=[],
+                                        page_size=5,
+                                        style_data_conditional=[
+                                            {
+                                                "if": {"row_index": "odd"},
+                                                "backgroundColor": "rgb(50, 50, 50)",
+                                            }
+                                        ],
+                                        style_header={
+                                            "backgroundColor": "rgb(30, 30, 30)",
+                                            "color": "white",
+                                        },
+                                        style_cell={
+                                            "backgroundColor": "rgb(50, 50, 50)",
+                                            "color": "white",
+                                        },
+                                        style_table={
+                                            "margin-bottom": "20px",
+                                            "padding-left": "2px",
+                                        },
+                                    ),
                                     style={"margin-bottom": "20px"},
                                 ),
-                            ],
-                            style={"overflow": "auto"},
+                                dbc.Col(
+                                    dbc.Button(
+                                        "Clear",
+                                        id="close-button",
+                                        color="secondary",
+                                        className="mr-1",
+                                        style={"margin-bottom": "20px"},
+                                    ),
+                                    width="auto",
+                                ),
+                            ]
                         ),
                     ],
                     style={
@@ -327,8 +322,8 @@ app.layout = dbc.Container(
                         "padding-left": "10px",
                         "padding-right": "10px",
                     },
-                    xl=6,
-                    lg=6,
+                    xl=7,
+                    lg=7,
                     md=12,
                     sm=12,
                     xs=12,
