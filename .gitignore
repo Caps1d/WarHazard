@@ -10,6 +10,8 @@
 #ignore .env file
 .env
 
+# Ignore private key
+*.pem
 
 
 

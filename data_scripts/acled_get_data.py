@@ -11,7 +11,7 @@ email = os.getenv("EMAIL")
 base_api_url = f"https://api.acleddata.com/acled/read?key={api_key}&email={email}"
 
 query_filters = {
-    "event_date": "2023-01-01|2023-07-14",
+    "event_date": "2023-01-01|2023-08-29",
     "event_date_where": "BETWEEN",
     "country": "Ukraine",
     "event_type": "Explosions/Remote violence:OR:event_type=Violence against civilians:OR:event_type=Battles",

@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
-commands_dir = os.path.join(dir_path, "hazard_scores", "Hazards_Jan_July.csv")
+commands_dir = os.path.join(dir_path, "hazard_scores", "Hazards_Jan_Aug.csv")
 
 
 # Load your data
@@ -22,7 +22,7 @@ df = pd.read_csv(commands_dir)
 df["event_date"] = pd.to_datetime(df["event_date"])
 
 df["unique_id"] = df["admin2"] + "-" + df["admin3"] + "-" + df["location"]
-df["opacity"] = df["hazard_score_tsne"] / 100
+df["opacity"] = df["hazard_score"] / 100
 df["opacity"] = df["opacity"].apply(lambda x: 0.6 if x < 0.6 else x)
 
 event_total = df["event_date"].count()
@@ -209,7 +209,6 @@ app.layout = dbc.Container(
                                     },
                                 ),
                             ],
-                            # style={"max-width": "460px", "width": "100%"},
                         ),
                     ],
                     style={
@@ -242,17 +241,17 @@ app.layout = dbc.Container(
                                 html.Div(
                                     dcc.RangeSlider(
                                         id="hazard-score-slider",
-                                        min=df["hazard_score_tsne"].min(),
-                                        max=df["hazard_score_tsne"].max(),
+                                        min=df["hazard_score"].min(),
+                                        max=df["hazard_score"].max(),
                                         value=[
-                                            df["hazard_score_tsne"].min(),
-                                            df["hazard_score_tsne"].max(),
+                                            df["hazard_score"].min(),
+                                            df["hazard_score"].max(),
                                         ],
                                         marks={
                                             str(i): str(i)
                                             for i in range(
-                                                int(df["hazard_score_tsne"].min()),
-                                                int(df["hazard_score_tsne"].max()) + 1,
+                                                int(df["hazard_score"].min()),
+                                                int(df["hazard_score"].max()) + 1,
                                                 10,
                                             )
                                         },
@@ -276,7 +275,7 @@ app.layout = dbc.Container(
                                             for i in [
                                                 "location",
                                                 "event_date",
-                                                "hazard_score_tsne",
+                                                "hazard_score",
                                             ]
                                         ],
                                         data=[],
@@ -358,7 +357,7 @@ app.layout = dbc.Container(
                     [
                         dcc.Markdown(
                             """
-                    &nbsp;&nbsp;&nbsp;&nbsp;The generation of the hazard_score_tsne variable was a process that involved several stages of data collection, preprocessing, feature engineering, and dimensional reduction.
+                    &nbsp;&nbsp;&nbsp;&nbsp;The generation of the hazard_score variable was a process that involved several stages of data collection, preprocessing, feature engineering, and dimensional reduction.
                     My goal was to create a comprehensive hazard score that could reflect the danger level in different regions of Ukraine, based on geolocated conflict data.
                 """,
                             style={"marginBottom": "20px"},
@@ -403,7 +402,7 @@ app.layout = dbc.Container(
                             "I performed dimensionality reduction using t-Distributed Stochastic Neighbor Embedding (t-SNE),"
                             " a machine learning algorithm that reduces high-dimensional data into a two or three-dimensional space,"
                             " making it easier to visualize and interpret. This allowed me to synthesize my many features into a single,"
-                            " comprehensive 'hazard_score_tsne'.",
+                            " comprehensive 'hazard_score'.",
                             style={"marginBottom": "20px"},
                         ),
                         html.P(
@@ -483,8 +482,8 @@ def update_map_and_events(location, start_date, end_date, hazard_score, region):
 
     # Filter by hazard score range
     dff = dff[
-        (dff["hazard_score_tsne"] >= hazard_score[0])
-        & (dff["hazard_score_tsne"] <= hazard_score[1])
+        (dff["hazard_score"] >= hazard_score[0])
+        & (dff["hazard_score"] <= hazard_score[1])
     ]
 
     # Filter by region
@@ -502,7 +501,7 @@ def update_map_and_events(location, start_date, end_date, hazard_score, region):
         "Location: "
         + dff["location"].astype(str)
         + "<br>Hazard Score: "
-        + dff["hazard_score_tsne"].astype(str)
+        + dff["hazard_score"].astype(str)
         + "<br>Date: "
         + dff["event_date"].astype(str)
     )
@@ -518,7 +517,7 @@ def update_map_and_events(location, start_date, end_date, hazard_score, region):
             mode="markers",
             marker=go.scattermapbox.Marker(
                 size=7,  # Adjust size as needed
-                color=dff["hazard_score_tsne"],
+                color=dff["hazard_score"],
                 colorscale=color_scale,
                 opacity=dff["opacity"],  # set the opacity here
             ),
@@ -561,7 +560,6 @@ def update_table(clickData, n_clicks):
             dff["event_date"] = dff["event_date"].dt.strftime(
                 "%Y-%m-%d"
             )  # Format the event_date column
-            # dff = dff.rename(columns={'event_date': 'Date', 'hazard_score_tsne': 'Hazard Score'})
             return dff.to_dict("records")
 
     # if callback was triggered by close-button n_clicks
