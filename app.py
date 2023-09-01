@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
-commands_dir = os.path.join(dir_path, "hazard_scores", "Hazards_Jan_Aug.csv")
+commands_dir = os.path.join(dir_path, "hazard_scores", "Hazards_latest.csv")
 
 
 # Load your data
@@ -250,8 +250,8 @@ app.layout = dbc.Container(
                                         marks={
                                             str(i): str(i)
                                             for i in range(
-                                                int(df["hazard_score"].min()),
-                                                int(df["hazard_score"].max()) + 1,
+                                                0,
+                                                100,
                                                 10,
                                             )
                                         },
