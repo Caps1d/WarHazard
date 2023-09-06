@@ -415,7 +415,7 @@ app.layout = dbc.Container(
                         dcc.Markdown(
                             """
                             First, in order to obtain the raw dataset I had to write a python script that uses ACLED’s API and a list of query filters that will filter out any data that I find irrelevant for this project or the dataset batch I am working on. I made different batches of data since the events in Ukraine would also develop in separate phases. For example, UAF’s (Ukrainian Armed Forces) summer offensive in 2022 which lead to the reclamation of a significant portion of the Kharkiv region presents a different state of events than what happened during the winter of 2023 with Russia’s winter offensive and the battle for Bakmut involving Wagner pmc’s. Furthermore, some data like iso (country code of the event), event id, and a few other id columns were filtered out from the dataset due to their irrelevance for the task at hand alongside with source type (source of the event report), source scale, and inter 1 and inter2. The reason for dropping some of the non-id related columns was due to them not contributing to the actual relationships between the data I was exploring and some features that were included already carry the context of those dropped features.
-                """,
+                            """,
                             style={"marginBottom": "20px"},
                         ),
                         html.P(
@@ -448,35 +448,45 @@ app.layout = dbc.Container(
                 ),
                 html.Div(
                     [
-                        html.P(
-                            "I performed dimensionality reduction using t-Distributed Stochastic Neighbor Embedding (t-SNE),"
-                            " a machine learning algorithm that reduces high-dimensional data into a two or three-dimensional space,"
-                            " making it easier to visualize and interpret. This allowed me to synthesize my many features into a single,"
-                            " comprehensive 'hazard_score'.",
+                        dcc.Markdown(
+                            """
+                            Since I don’t have a ground truth feature, like a hazard score for each location, there was no way to use a supervised model to learn the right patterns and relationship in the data, unless I would synthesize a pool of hazard scores to train the model on. Instead, I opted for an unsupervised approach:  
+                              
+                            1. t-SNE Embedding: I used t-SNE (t-distributed stochastic neighbor embeddings) to produce 2-D embeddings based on encoded event types, number of events, and total casualties. The aim was to reduce the data's dimensionality while preserving inherent relationships, given the multiple features I had.  
+                              
+                                - **Note on t-SNE**: The high nonlinearity of t-SNE and potential loss of global relationships mean the resulting coordinates are not directly interpretable in terms of the original features.  
+                              
+
+                            2. Kernel Density Estimation: I applied Gaussian kernel density estimation (KDE) to the t-SNE results. KDE estimates the probability density function of the data, letting us identify dense clusters in the 2-D space.  
+                              
+                            3. Densest Point: After computing the density using KDE, I identified the densest point, which represents the most prominent pattern in the data.
+                                - **Distance Calculation**: A new column was added to hold the distance of each data point to the densest point.  
+                              
+
+                            4. Distance Scoring: Finally, I converted the raw distance values to a distance score, applying exponential decay. This ensures that data points closer to the densest point are weighted differently than those further away, emphasizing their significance.
+                            """,
                             style={"marginBottom": "20px"},
                         ),
-                        html.P(
-                            "Once the hazard score was generated, it underwent several evaluations to ensure its validity. Feedback from Ukrainians confirmed"
-                            " that the generated hazard scores align well with their perceptions of danger levels in different regions, affirming the model's"
-                            " face validity. Additionally, the model demonstrated historical validation by aligning well with"
-                            " historical conflict patterns.",
+                        dcc.Markdown(
+                            """
+                            While the t-SNE-derived distance scores effectively condensed several features, I believed they weren't sufficient by themselves to gauge the hazard level of a location. I intentionally left out a critical domain knowledge-based feature: the minimal distance to the battlefront. The proximity to the frontline is a defining parameter for the hazard score; locations closer to the front are inherently more dangerous.
+                              
+                            To integrate this feature effectively:  
+                            * Distance Conversion: I transformed the proximity to the battlefront into a score using exponential decay. The idea is simple: as the distance from the frontline increases, the associated score decreases exponentially.  
+                              
+                                **Rationale**: This captures the reality that while the frontline might stretch across vast areas, its most hazardous regions are concentrated in clusters. Therefore, locations even just ~100km away experience a significant reduction in danger compared to those nearby.  
+                              
+                            * Heuristic Approach: It's worth noting that this approach is heuristic. Determining the exact decay factor required experimentation to ensure a realistic representation of the distance's influence on the hazard level.
+                            """,
                             style={"marginBottom": "20px"},
                         ),
-                        html.P(
-                            "The model also exhibited spatial consistency, as areas close to each other had similar hazard scores unless divided"
-                            " by clear demarcation lines like boundaries. This consistency in hazard scores across geographical proximity further"
-                            " affirmed the reliability of the model's outputs.",
-                            style={"marginBottom": "20px"},
-                        ),
-                        html.P(
-                            "The result was a hazard score that encapsulated the key elements of conflict impact in each region."
-                            " This comprehensive score is now aiding civilians and humanitarian organizations in making informed"
-                            " decisions, allocating resources, and planning strategically in war-torn zones.",
-                            style={"marginBottom": "20px"},
-                        ),
-                        html.P(
-                            "Author: Yegor Smertenko",
-                            style={"textAlign": "right", "marginRight": "40px"},
+                        dcc.Markdown(
+                            """
+                            Finally, this brings us to the calculation of the hazard scores. I have chosen a weighted sum approach to combine both t-SNE derived distance points and the physical proximity distance score from the previous step. The reasoning behind this is that by using heuristically derived weights I was able to apply my own knowledge to decide on the level of significance of how much each value contributes to the final score. The final split was to allocate a weight of 0.7 for distance and 0.3 for the features processed with t-SNE and KDE. The t-sne features are more there to account for auxiliary factors and the known unknowns, however, we know for a fact that all the features associated with highest danger that are not present in this data set (aside from events types) are all present at the front and locations closest to it. Which is why distance gets the dominant weight in the hazard scores computation.  
+                              
+                            Further additional steps were taken to incorporate domain knowledge. Those being: setting locations that are within 30 km to the battlefront with a score of 100; setting the minimum score for all locations at 30; locations with battles automatically get a score of 100. The reasoning behind a score for 30 as a minimum is that many Ukrainian villages, towns and cities get shelled and subjected to remote violence events almost every day, either due to being a logistic hub, a command center, probing for air defense or simply for pure terror to exhaust civilians and breakdown morale in the population. The presence of air defense mitigates a lot of the risk and it has been getting relatively safer, but the frequency of attacks hasn’t been reducing and the opponent is coming up with new tactics too. Furthermore, even if a target gets taken down, casualties still happen due to debris and other collateral effects. As for the 30km distance and battle events hardset point allocation, this decision is because those locations are practically at the front lines or are the frontlines themselves.
+                            """,
+                            style={"marginBottom": "40px"},
                         ),
                     ],
                     style={
@@ -500,6 +510,41 @@ app.layout = dbc.Container(
             window.dispatchEvent(new Event('resize'));
         };
     """
+        ),
+        html.Div(
+            [
+                dcc.Markdown(
+                    """
+                    After analyzing the obtained scores, doing domain-based validation and visualizing the data, I have noticed that a significant amount of locations that are neighbouring the frontlines or are in occupied territory, show low hazard scores. To solve this issue I had an idea to develop a method that will propagate a percentage of a neighboring hot zone (80+ hazard score) to locations within its 80 km radius. However, only locations with a hazard score below 80 would be selected for inheritance. This way we avoid applying this effect on already highly hazardous locations that are used as hazard sources, as well as conserving computational resources.  
+                        
+                    The amount that each location within that radius inherits is determined by how far it is from its nearest hot zone. In order to obtain a list of hot zones, I have used pandas to filter out locations that have a hazard score lower than 80. Then, I proceeded to drop duplicate entries for locations since the current dataset has monthly entries per location. After obtaining this filtered pool of hot zones, I wrote a function that would capture the index of the first record of a hot zone that belongs to the same region, i.e the admin1 column. This way we can ensure that we’re not comparing each location to the whole list but only look for hot zones within the same region. Once the index was found, I used pandas to iterate through locations within the same region. I have also set dummy variables to track the distance to the closest hot zone and the hazard score associated with it. At each index I used the same haversine function from before to compute the distance between a location and the various hot zones in its region. Whenever a hot zone with a shorter distance is found the distance value will be set to that shorter distance, same with the hazard score. The stopping condition is to land on an entry that is outside of the location's region. Once the parsing was done, we have successfully obtained the shortest distance to a hot zone and its hazard score for each location. Then, in order to compute the inherited hazard score I applied exponential decay to 80% of the hazard score from the location that is spreading its hazard score. As a result after this hazard score propagation effect, we have now obtained more realistic hazard scores in near front locations.  
+                        
+                    After visualizing the obtained data I was left satisfied with the outcome considering my domain knowledge. Further assessments by Ukrainians and people with domain knowledge have confirmed that the visualization demonstrates a clear and accurate outlook on the hazard level of locations across Ukraine.
+                    """,
+                    style={"marginBottom": "20px"},
+                ),
+            ],
+            style={
+                "justify-content": "center",
+                "text-align": "left",
+                "align-items": "left",
+                "color": "#DCDCDC",
+                "padding-left": "40px",
+                "padding-right": "40px",
+                "fontSize": "18px",
+            },
+        ),
+        html.P(
+            "Author: Yegor Smertenko",
+            style={
+                "align-items": "right",
+                "textAlign": "right",
+                "marginRight": "40px",
+                "color": "#DCDCDC",
+                "padding-left": "40px",
+                "padding-right": "40px",
+                "fontSize": "18px",
+            },
         ),
     ],
     fluid=True,
