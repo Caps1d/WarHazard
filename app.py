@@ -381,7 +381,7 @@ app.layout = dbc.Container(
             ],
             style={
                 "justify-content": "center",
-                "padding-top": "80px",
+                "padding-top": "40px",
             },
         ),
         dbc.Row(
