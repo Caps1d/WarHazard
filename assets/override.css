@@ -1,87 +1,92 @@
 .Select-menu-outer {
-    background-color: #3B3B3B !important;
-    color: #AAAAAA !important;
+  background-color: #3b3b3b !important;
+  color: #aaaaaa !important;
 }
 
-#search-bar::placeholder {color: #AAAAAA !important;}
+#search-bar::placeholder {
+  color: #aaaaaa !important;
+}
 
 th {
-    text-align: center !important;
+  text-align: center !important;
 }
 
-
 @media screen and (min-width: 992px) {
-    .desktopPadding {
-        padding-left: 50px;
-    }
+  .desktopPadding {
+    padding-left: 50px;
+  }
 
-    .methodology > div {
-        max-width: 50%;
-    }
+  /* .methodology > div { */
+  /*   max-width: 50%; */
+  /* } */
 
-    .methodology {
-        gap:20px;
-        justify-content: space-between;
-    }
+  .methodology {
+    gap: 20px;
+    justify-content: space-between;
+  }
 }
 
 @media screen and (max-width: 991px) {
-    .desktopPadding {
-        padding-left: 0;
-    }
-    .methodology {
-        flex-direction: column;
-    }
+  .desktopPadding {
+    padding-left: 0;
+  }
+  .methodology {
+    flex-direction: column;
+  }
 }
 
-.methodology{
-    display: flex;
+.methodology {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 12px;
+  row-gap: 12px;
 }
 
 /* Adjust the size and position of the map for small screens */
 @media screen and (max-width: 600px) {
-    #scatter-map {
-      width: 100%;
-      height: 300px;
-    }
+  #scatter-map {
+    width: 100%;
+    height: 300px;
   }
-  
-  /* Adjust the size and position of the slider for small screens */
-  @media screen and (max-width: 600px) {
-    #hazard-score-slider {
-      width: 90%;
-      margin: auto;
-    }
+}
+
+/* Adjust the size and position of the slider for small screens */
+@media screen and (max-width: 600px) {
+  #hazard-score-slider {
+    width: 90%;
+    margin: auto;
   }
-  
-  /* Adjust the size and position of the table for small screens */
-  @media screen and (max-width: 600px) {
-    #table {
-      width: 90%;
-      margin: auto;
-    }
+}
+
+/* Adjust the size and position of the table for small screens */
+@media screen and (max-width: 600px) {
+  #table {
+    width: 90%;
+    margin: auto;
   }
+  .methodology {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
 
 /* Adjust the size and position of the map for larger screens */
 @media screen and (min-width: 992px) {
-    #scatter-map {
-        width: 100%;  
-        height: 400px;  
-    }
+  #scatter-map {
+    width: 100%;
+    height: 400px;
+  }
 }
 
 /* Adjust the size and position of the slider for larger screens */
 @media screen and (min-width: 992px) {
-    #hazard-score-slider {
-        width: 100%;   
-    }
+  #hazard-score-slider {
+    width: 100%;
+  }
 }
 
 /* Adjust the size and position of the table for larger screens */
 @media screen and (min-width: 992px) {
-    #table {
-        width: 100%;  
-    }
+  #table {
+    width: 100%;
+  }
 }
-
-  
