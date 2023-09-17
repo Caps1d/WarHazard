@@ -5,7 +5,7 @@
 .ipynb_checkpoints
 
 #ignore .vscode folder
-.vscode
+.vscode/
 
 #ignore .env file
 .env
@@ -13,5 +13,12 @@
 # Ignore private key
 *.pem
 
+__pycache__/
+
+data/
+
+notebooks/
+
+requirements
 
 
