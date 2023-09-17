@@ -1,20 +1,18 @@
 import pandas as pd
 import plotly.graph_objects as go
-import plotly.express as px
 import dash
 from dash import dcc
 from dash import html
 from dash import dash_table
-from dash.dependencies import Input, Output, State
+from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
-import json
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
-commands_dir = os.path.join(dir_path, "hazard_scores", "Hazards_latest.csv")
+commands_dir = os.path.join(dir_path, "hazard_scores", "Hazards_test.csv")
 
 
 md_style = {
