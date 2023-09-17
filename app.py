@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
-commands_dir = os.path.join(dir_path, "hazard_scores", "Hazards_test.csv")
+commands_dir = os.path.join(dir_path, "hazard_scores", "Hazards_latest.csv")
 
 
 md_style = {
