@@ -1,13 +1,11 @@
 import pandas as pd
 import plotly.graph_objects as go
-import plotly.express as px
 import dash
 from dash import dcc
 from dash import html
 from dash import dash_table
-from dash.dependencies import Input, Output, State
+from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
-import json
 import os
 from dotenv import load_dotenv
 
