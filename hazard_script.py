@@ -168,7 +168,8 @@ def engineer_features(df):
         lambda x: 1 if x == "Civilian targeting" else 0
     )
 
-    # One-hot encode event_type and incorporate civilian_targeting_encoded for 'Explosions/Remote violence'
+    # One-hot encode event_type and incorporate civilian_targeting_encoded
+    # for 'Explosions/Remote violence'
     df["event_battles"] = (df["event_type"] == "Battles").astype(int)
     df["event_explosions"] = (
         (df["event_type"] == "Explosions/Remote violence")
