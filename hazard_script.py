@@ -268,7 +268,7 @@ def compute_distance(df):
     hazard_hi = df[df["hazard_score"] >= 80][
         ["event_date", "admin3", "location", "latitude", "longitude", "hazard_score"]
     ]
-    hazard_lo = df[df["hazard_score"] < 70][
+    hazard_lo = df[df["hazard_score"] < 75][
         ["event_date", "admin3", "location", "latitude", "longitude", "hazard_score"]
     ]
     cross_lo_hi = hazard_lo.merge(hazard_hi, how="cross", suffixes=("_low", "_high"))
@@ -305,7 +305,7 @@ def propagate_hazard_scores(df):
     df["distance"].fillna(0, inplace=True)
     df["hazard_score_high"].fillna(0, inplace=True)
 
-    df["hazard_decayed"] = 0.5 * df["hazard_score_high"] * (1 - 0.03) ** df["distance"]
+    df["hazard_decayed"] = 0.6 * df["hazard_score_high"] * (1 - 0.02) ** df["distance"]
     df["hazard_score"] += df["hazard_decayed"]
 
     df["hazard_score"] = df["hazard_score"].clip(0, 100)

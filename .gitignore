@@ -19,6 +19,8 @@ data/
 
 notebooks/
 
+hazard_scores/
+
 requirements.txt
 
 
