@@ -264,54 +264,54 @@ def compute_hazard_scores(df):
     return df
 
 
-def compute_distance(row, locations):
-    if row["admin1"] in locations["admin1"].values:
-        # find the index of the first occurrence
-        idx = locations[locations["admin1"] == row["admin1"]].index[0]
-        # vars for distance and score
-        distance = (
-            81  # this is a baseline value to flag the one's that are outside of radius
-        )
-        hazard = 0
-        for i, r in locations.loc[idx:].iterrows():
-            if r["admin1"] == row["admin1"]:
-                # compute distance between two locations
-                # check if its within 50km
-                delta = haversine(
-                    row["latitude"], row["longitude"], r["latitude"], r["longitude"]
-                )
-                if delta <= distance:
-                    distance = delta
-                    hazard = r["hazard_score"]
-            else:
-                break
-        # apply exponential decay to distance
-        hazard_decayed = 0.8 * hazard * (1 - 0.02) ** (distance)
-        return row["hazard_score"] + hazard_decayed
+def compute_distance(df):
+    hazard_hi = df[df["hazard_score"] >= 80][
+        ["event_date", "admin3", "location", "latitude", "longitude", "hazard_score"]
+    ]
+    hazard_lo = df[df["hazard_score"] < 75][
+        ["event_date", "admin3", "location", "latitude", "longitude", "hazard_score"]
+    ]
+    cross_lo_hi = hazard_lo.merge(hazard_hi, how="cross", suffixes=("_low", "_high"))
+    cross_lo_hi = cross_lo_hi.drop_duplicates(
+        subset=["location_low", "location_high"], keep="last"
+    ).reset_index(drop=True)
 
-    return row["hazard_score"]
+    cross_lo_hi.loc[:, "distance"] = haversine(
+        cross_lo_hi["latitude_low"],
+        cross_lo_hi["longitude_low"],
+        cross_lo_hi["latitude_high"],
+        cross_lo_hi["longitude_high"],
+    )
+    cross_lo_hi = cross_lo_hi[
+        (cross_lo_hi["distance"] <= 80) & (cross_lo_hi["distance"] > 1)
+    ]
+
+    min_distance_idx = cross_lo_hi.groupby("location_low")["distance"].idxmin()
+    cross_lo_hi = cross_lo_hi.loc[min_distance_idx].reset_index(drop=True)
+
+    return cross_lo_hi
 
 
 def propagate_hazard_scores(df):
-    # Step 1: Extract high hazard locations
-    high_hazard_locs = df[df["hazard_score"] >= 80][
-        ["admin1", "latitude", "longitude", "hazard_score"]
-    ]
-    high_hazard_locs = high_hazard_locs.drop_duplicates(
-        subset=["latitude", "longitude"], keep=False
+    cross_lo_hi = compute_distance(df)
+    df = df.merge(
+        cross_lo_hi[["location_low", "distance", "hazard_score_high"]],
+        left_on="location",
+        right_on="location_low",
+        how="left",
     )
+    df.drop(columns="location_low", inplace=True)
 
-    # Step 2: Identify locations within 50km radius using row-wise function
-    df["hazard_score"] = df.apply(
-        lambda x: compute_distance(x, high_hazard_locs)
-        if x["hazard_score"] < 80
-        else x["hazard_score"],
-        axis=1,
-    )
-    # Cliping and rounding values to be within our desired range
+    df["distance"].fillna(0, inplace=True)
+    df["hazard_score_high"].fillna(0, inplace=True)
+
+    df["hazard_decayed"] = 0.6 * df["hazard_score_high"] * (1 - 0.02) ** df["distance"]
+    df["hazard_score"] += df["hazard_decayed"]
+
     df["hazard_score"] = df["hazard_score"].clip(0, 100)
     df["hazard_score"] = df["hazard_score"].round(0)
 
+    df = df.iloc[:, :-3]
     return df
 
 
@@ -327,7 +327,7 @@ def main():
     df = compute_hazard_scores(df)
     df = propagate_hazard_scores(df)
 
-    df.to_csv("Hazards_latest.csv", index=False)
+    df.to_csv("Hazards_test.csv", index=False)
 
     print("Data stored as Hazards_latest.csv")
 
