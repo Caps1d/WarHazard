@@ -1,3 +1,22 @@
+.add_20_btm {
+  margin-bottom: 20px;
+}
+
+.title {
+    text-align: center;
+    align-items: center;
+    color: #DCDCDC;
+    font-size: 34px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.md_style {
+  align-items: left;
+  color: #DCDCDC;
+  fontSize: 18px;
+}
+
 .Select-menu-outer {
   background-color: #3b3b3b !important;
   color: #aaaaaa !important;
@@ -15,10 +34,6 @@ th {
   .desktopPadding {
     padding-left: 50px;
   }
-
-  /* .methodology > div { */
-  /*   max-width: 50%; */
-  /* } */
 
   .methodology {
     gap: 20px;
