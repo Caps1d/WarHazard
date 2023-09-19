@@ -325,7 +325,7 @@ def main():
     df = compute_hazard_scores(df)
     df = propagate_hazard_scores(df)
 
-    df.to_csv("Hazards_test.csv", index=False)
+    df.to_csv("Hazards_latest.csv", index=False)
 
     print("Data stored as Hazards_latest.csv")
 
