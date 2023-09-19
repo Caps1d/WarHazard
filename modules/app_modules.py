@@ -1,10 +1,10 @@
 import os
-import dash_bootstrap_components as dbc
-import pandas as pd
 
+import dash_bootstrap_components as dbc
 from dash import dcc
-from dash import html
 from dash import dash_table
+from dash import html
+import pandas as pd
 
 
 def load_data(fname):
@@ -58,9 +58,8 @@ def add_input_location():
 
 
 def add_select_region_dropdown(df):
-    options = (
-        [{"label": region, "value": region} for region in df["admin2"].unique()],
-    )
+    options = [{"label": region, "value": region} for region in df["admin2"].unique()]
+
     style = {
         "backgroundColor": "#3B3B3B",
         "color": "#757575",
@@ -238,8 +237,8 @@ def create_markdown_overview():
         "text-align": "left",
         "align-items": "left",
         "color": "#DCDCDC",
-        "padding-left": "40px",
-        "padding-right": "40px",
+        "padding-left": "52px",
+        "padding-right": "50px",
         "fontSize": "18px",
     }
 

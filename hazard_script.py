@@ -4,11 +4,9 @@ from os import path
 import numpy as np
 import pandas as pd
 import spacy
-
-# from haversine import haversine
 from scipy.stats import gaussian_kde
-from sklearn.preprocessing import MinMaxScaler
 from sklearn.manifold import TSNE
+from sklearn.preprocessing import MinMaxScaler
 from word2number import w2n
 
 # Load SpaCy's nlp model

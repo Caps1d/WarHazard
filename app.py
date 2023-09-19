@@ -1,20 +1,16 @@
 import os
 
 import dash
+import dash_bootstrap_components as dbc
+from dash import dcc, html
+from dash.dependencies import Input, Output
+from dotenv import load_dotenv
 import pandas as pd
 import plotly.graph_objects as go
-import dash_bootstrap_components as dbc
 
 from modules import app_modules
-from dash import dcc
-from dash import html
-from dash.dependencies import Input, Output
-
-from dotenv import load_dotenv
-
 
 load_dotenv()
-
 
 # Load your data
 fname = "Hazards_latest.csv"
@@ -41,13 +37,7 @@ app.layout = dbc.Container(
                             + app_modules.create_markdown_description()
                         ),
                     ],
-                    style={
-                        "display": "flex",
-                        "flex-direction": "column",
-                        "align-items": "right",
-                        "padding-left": "8px",
-                    },
-                    className="desktopPadding",
+                    className="dashboard_col desktopPadding",
                     xl=5,
                     lg=5,
                     md=12,
@@ -60,7 +50,7 @@ app.layout = dbc.Container(
                             [
                                 html.Div(
                                     dcc.Graph(id="scatter-map", responsive=True),
-                                    className="add_20_btm",
+                                    className="marg_20_btm",
                                 ),
                             ]
                         ),
@@ -68,30 +58,20 @@ app.layout = dbc.Container(
                             [
                                 html.Div(
                                     app_modules.add_rangeslider(df),
-                                    style={
-                                        "margin-bottom": "20px",
-                                        "position": "relative",
-                                        "width": "100%",
-                                    },
+                                    className="rangeslider",
                                 ),
                             ]
                         ),
                         dbc.Row(
                             [
                                 html.Div(
-                                    app_modules.add_datatable(), className="add_20_btm"
+                                    app_modules.add_datatable(), className="marg_20_btm"
                                 ),
                                 dbc.Col(app_modules.add_clear_btn(), width="auto"),
                             ]
                         ),
                     ],
-                    style={
-                        "display": "flex",
-                        "flex-direction": "column",
-                        "align-items": "left",
-                        "padding-left": "10px",
-                        "padding-right": "10px",
-                    },
+                    className="map_col",
                     xl=7,
                     lg=7,
                     md=12,
@@ -99,34 +79,26 @@ app.layout = dbc.Container(
                     xs=12,
                 ),
             ],
-            style={"padding-top": "40px"},
+            className="padd_40_top",
         ),
         dbc.Row(
             [
                 html.Div(
                     [
-                        html.P("Project Overview", className="title"),
+                        html.P("Project Overview", className="title padd_40_top"),
                     ]
                 ),
                 app_modules.create_markdown_overview(),
             ],
-            style={
-                "justify-content": "center",
-                "padding-top": "40px",
-            },
         ),
         dbc.Row(
             [
                 dbc.Col(
                     [
-                        html.P("Methodology", className="title"),
+                        html.P("Methodology", className="title padd_40_top padd_6_btm"),
                     ]
                 ),
             ],
-            style={
-                "padding-top": "40px",
-                "padding-bottom": "6px",
-            },
         ),
         app_modules.create_markdown_methodology(),
         html.Script(
@@ -160,10 +132,9 @@ custom_mapbox_style_url = os.getenv("MAPBOX_STYLE")
         Input("region-dropdown", "value"),
     ],
 )
-
 # map function
 def update_map_and_events(location, start_date, end_date, hazard_score, region):
-    # If alocation is provided, filter the dataframe to that location
+    # If a location is provided, filter the dataframe to that location
     if location:
         dff = df[df["location"] == location]
     else:
@@ -252,11 +223,6 @@ def update_table(clickData, n_clicks):
                 "%Y-%m-%d"
             )  # Format the event_date column
             return dff.to_dict("records")
-
-    # if callback was triggered by close-button n_clicks
-    # elif ctx.triggered[0]["prop_id"] == "close-button.n_clicks":
-    #     return []  # return an empty list when the close button is clicked
-    #
     else:
         return []  # return an empty list when no marker is clicked
 
