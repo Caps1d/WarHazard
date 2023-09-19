@@ -1,4 +1,32 @@
-.add_20_btm {
+.dashboard_col {
+    display: flex,
+    flex-direction: column,
+    padding-left: 10px,
+},
+
+.rangeslider {
+    margin-bottom: 20px,
+    position: relative,
+    width: 100%,
+},
+
+.map_col {
+    display: flex,
+    flex-direction: column,
+    align-items: left,
+    padding-left: 10px,
+    padding-right: 10px,
+}
+
+.padd_40_top {
+    padding-top: 40px;
+  }
+
+.padd_6_btm {
+    padding-bottom: 6px;
+  }
+
+.marg_20_btm {
   margin-bottom: 20px;
 }
 
