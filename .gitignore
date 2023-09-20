@@ -1,22 +1,18 @@
-#ignore .DS_Store files
 .DS_Store
 
-#ingore ipynb checkpoints
-.ipynb_checkpoints
-
-#ignore .vscode folder
-.vscode/
-
-#ignore .env file
 .env
 
-# Ignore private key
+.ipynb_checkpoints
+
 *.pem
 
-__pycache__/
 
 data/
 
+hazard_scores/
+
 notebooks/
 
-hazard_scores/
+__pycache__/
+
+.vscode/
