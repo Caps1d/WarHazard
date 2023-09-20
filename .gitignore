@@ -1,0 +1,22 @@
+#ignore .DS_Store files
+.DS_Store
+
+#ingore ipynb checkpoints
+.ipynb_checkpoints
+
+#ignore .vscode folder
+.vscode/
+
+#ignore .env file
+.env
+
+# Ignore private key
+*.pem
+
+__pycache__/
+
+data/
+
+notebooks/
+
+hazard_scores/

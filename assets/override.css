@@ -1,0 +1,135 @@
+.dashboard_col {
+    display: flex,
+    flex-direction: column,
+    padding-left: 10px,
+},
+
+.rangeslider {
+    margin-bottom: 20px,
+    position: relative,
+    width: 100%,
+},
+
+.map_col {
+    display: flex,
+    flex-direction: column,
+    align-items: left,
+    padding-left: 10px,
+    padding-right: 10px,
+}
+
+.padd_40_top {
+    padding-top: 40px;
+  }
+
+.padd_6_btm {
+    padding-bottom: 6px;
+  }
+
+.marg_20_btm {
+  margin-bottom: 20px;
+}
+
+.title {
+    text-align: center;
+    align-items: center;
+    color: #DCDCDC;
+    font-size: 34px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.md_style {
+  align-items: left;
+  color: #DCDCDC;
+  fontSize: 18px;
+}
+
+.Select-menu-outer {
+  background-color: #3b3b3b !important;
+  color: #aaaaaa !important;
+}
+
+#search-bar::placeholder {
+  color: #aaaaaa !important;
+}
+
+th {
+  text-align: center !important;
+}
+
+@media screen and (min-width: 992px) {
+  .desktopPadding {
+    padding-left: 50px;
+  }
+
+  .methodology {
+    gap: 20px;
+    justify-content: space-between;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .desktopPadding {
+    padding-left: 0;
+  }
+  .methodology {
+    flex-direction: column;
+  }
+}
+
+.methodology {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 12px;
+  row-gap: 12px;
+}
+
+/* Adjust the size and position of the map for small screens */
+@media screen and (max-width: 600px) {
+  #scatter-map {
+    width: 100%;
+    height: 300px;
+  }
+}
+
+/* Adjust the size and position of the slider for small screens */
+@media screen and (max-width: 600px) {
+  #hazard-score-slider {
+    width: 90%;
+    margin: auto;
+  }
+}
+
+/* Adjust the size and position of the table for small screens */
+@media screen and (max-width: 600px) {
+  #table {
+    width: 90%;
+    margin: auto;
+  }
+  .methodology {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
+
+/* Adjust the size and position of the map for larger screens */
+@media screen and (min-width: 992px) {
+  #scatter-map {
+    width: 100%;
+    height: 400px;
+  }
+}
+
+/* Adjust the size and position of the slider for larger screens */
+@media screen and (min-width: 992px) {
+  #hazard-score-slider {
+    width: 100%;
+  }
+}
+
+/* Adjust the size and position of the table for larger screens */
+@media screen and (min-width: 992px) {
+  #table {
+    width: 100%;
+  }
+}
