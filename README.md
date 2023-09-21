@@ -11,8 +11,12 @@ ACLED’s raw dataset was comprehensive enough to include three levels of admini
   
 In later updates to this project, I aim to include some new features such as whether a location is part of a logistic route, missile count and type and reduce the number of hardcoded points that are used to account for domain knowledge on the war in Ukraine. Furthermore, for people interested in numbers, I will also include various plots to show event distributions, frequencies and more visualizations of various relationships that are present in the dataset. Nevertheless, I am happy with how this project has turned out and its accuracy in reflecting the danger level of locations across Ukraine.  
   
-> Quick note on the project's implementation: everything was done using python and various data processing libraries, numpy and pandas being at the core of it and plotly’s dash was used for making the web app. 
+> Note on the project's implementation: everything was done using python and various data processing libraries, numpy and pandas being at the core of it and plotly’s dash was used for making the web app. 
 
+
+Quick glance at the main dashboard:
+
+![Main Dashboard](./blob/dashboard.png)
   
 ### Methodology
 
